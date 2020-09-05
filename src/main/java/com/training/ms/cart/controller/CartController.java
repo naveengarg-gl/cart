@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.training.ms.cart.event.producer.ProducerCart;
 import com.training.ms.cart.model.CartDetail;
 import com.training.ms.cart.repo.CartRepository;
 
@@ -21,6 +22,9 @@ public class CartController {
 	
 	@Autowired
 	CartRepository cartRepository;
+	
+	@Autowired
+	ProducerCart producerCart;
 	
 	 @Autowired
 	  private Environment environment;
@@ -54,5 +58,15 @@ public class CartController {
 	    return cartDetail;
 	  
 	} 
+	 
+	 @PostMapping("/cart-service/customer/{customerId}/checkout")
+	  public Integer checkoutCustomer
+	    (@PathVariable int customerId){
+		 producerCart.produce("Payment Suceesful for customer id="+customerId);
+		 
+	    return customerId;
+	  
+	} 
+
 
 }
